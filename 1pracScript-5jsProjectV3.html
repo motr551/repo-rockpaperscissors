@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Project: Rock Paper Scissors 19nov18</title>
+    <style>
+      h3#miniRobotText
+      {
+        border: 1px solid red;
+        padding: 15px;
+        text-align: center;
+      }
+      h3#miniRobotTextEmpty
+      {
+        margin: 0;
+      }
+
+      img#miniRobot
+      {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+      }
+      img#miniRobotEmpty
+      {
+        margin: 0;
+      }
+
+      button#leoToPlay{
+          font-size: 12px;
+          width: 40%;
+          float: left;
+          padding: 15px;
+          border: 1px solid red;
+          margin: 3px;
+      }
+      button#roseToPlay{
+          font-size: 12px;
+          width: 40%;
+          float: right;
+          padding: 15px;
+          border: 1px solid red;
+          margin: 3px;
+      }
+
+      p#rock
+      {
+        text-align: center;
+        width: 30%;
+        margin-top: 15px;
+      }
+
+      img#paper, img#scissors,
+      img#rockComp, img#paperComp, img#scissorsComp,
+      {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        margin-bottom: 15px;
+        /* width: 25%; */
+        /* float: left; */
+        /* padding: 15px; */
+        /* border: 1px solid red; */
+      }
+
+      p#playerScore {
+        color: white;
+        font-size: 20px;
+        text-align: center;
+        background: black;
+      }
+
+      p#paper, p#scissors,
+      p#rockComp, p#paperComp, p#scissorsComp
+      {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 30%;
+        margin-top: 15px;
+      }
+
+      p#noStop
+      {
+        margin-top: 15px;
+      }
+
+    </style>
+
+  </head>
+  <body>
+    <p id="playerScore"></p>
+    <p id="miniRobotScore"></p>
+    <p id="tiesScore"></p>
+
+    <h3 id="miniRobotText"></h3>
+    <img id="miniRobot" src="" ></img>
+
+    <p id="leoToPlay" ></p>
+    <p id="roseToPlay"></p>
+
+    <img id="rock" src="" onclick="selectRock()"></img>
+    <p id="rock" ></p>
+
+    <img id="paper" src="" onclick="selectPaper()"></img>
+    <p id="paper" ></p>
+
+    <img id="scissors" src="" onclick="selectScissors()"></img>
+    <p id="scissors" ></p>
+
+    <img id="rockComp" src="" ></img>
+    <p id="rockComp" ></p>
+
+    <img id="paperComp"  src=""></img>
+    <p id="paperComp" ></p>
+
+    <img id="scissorsComp" src=""></img>
+    <p id="scissorsComp" ></p>
+
+    <h1 id="outCome"></h2>
+
+    <p id="anotherGame"></p>
+
+    <p id="yesAnotherGame"></p>
+    <p id="noStop"></p>
+
+    <script>
+      whoWantsToPlay();
+
+      // miniRobot ask to play
+      function whoWantsToPlay(){
+        // miniRobot asks who wants to play
+        // document.querySelector("h3#miniRobotText").outerHTML =
+        // '<h3 id="miniRobotText">I am a mini Robot.<br>\
+        // Who wants to play\
+        // "Rock, Paper, Scissors" with me?</h3>';
+        // document.querySelector("h3#miniRobotText").outerHTML =
+        // '<h3 id="miniRobotTextEmpty"></h3>';
+        h3_miniRobotText('I am a mini Robot.<br>\
+            Who wants to play\
+            "Rock, Paper, Scissors" with me?');
+
+
+        //document.querySelector("img#miniRobot").outerHTML =
+        // '<img id="miniRobot" src="./img/miniRobot.jpg" ></img>';
+        img_miniRobot();
+
+        // leo and rose to play.
+        document.querySelector("p#leoToPlay").outerHTML =
+        '<button id="leoToPlay" onclick="hiLeo()">LEO:<br><br>\
+        I want to play </button>';
+        document.querySelector("p#roseToPlay").outerHTML =
+        '<button id="roseToPlay" onclick="hiRose()">ROSE:<br><br>\
+        No, I want to play </button>';
+      }
+
+      function h3_miniRobotText(str){
+        document.querySelector("h3#miniRobotText").outerHTML =
+        '<h3 id="miniRobotText">'+str+'</h3>';
+      }
+      function h3_miniRobotTextEmpty() {
+        document.querySelector("h3#miniRobotText").outerHTML =
+        '<h3 id="miniRobotTextEmpty"></h3>';
+      }
+
+      function img_miniRobot() {
+        document.querySelector("img#miniRobot").outerHTML =
+        '<img id="miniRobot" src="./img/miniRobot.jpg" ></img>';
+      }
+      function img_miniRobotEmpty() {
+        document.querySelector("img#miniRobot").outerHTML =
+        '<img id="miniRobot" src="./img/miniRobot.jpg" ></img>';
+      }
+
+      // confirm on button to choose a player
+      let player;
+      function hiLeo(){
+        document.querySelector("h3#miniRobotText").outerHTML =
+        '<h3 id="miniRobotText">Hi LEO, let\'s play!</h3>';
+        // change button back to paragraphs
+        document.querySelector("button#leoToPlay").outerHTML =
+        '<p id="leoToPlay"></p>';
+        document.querySelector("button#roseToPlay").outerHTML =
+        '<p id="roseToPlay"></p>';
+        player = "LEO";
+        countDownToPick();
+      }
+      function hiRose(){
+        document.querySelector("h3#miniRobotText").outerHTML =
+        '<h3 id="miniRobotText">Hi ROSE, let\'s play!</h3>';
+        // change button back to paragraphs
+        document.querySelector("button#leoToPlay").outerHTML =
+        '<p id="leoToPlay"></p>';
+        document.querySelector("button#roseToPlay").outerHTML =
+        '<p id="roseToPlay"></p>';
+        player = "ROSE";
+        countDownToPick();
+
+      }
+
+      // Start count down
+      let timeKeeper;
+      function countDownToPick(){
+        document.querySelector("img#miniRobot").outerHTML =
+        '<img id="miniRobot" src="" ></img>';
+        document.querySelector("h3#miniRobotText").outerHTML =
+        '<h3 id="miniRobotText">Let\'s start the count down!</h3>';
+        timeKeeper = setInterval(gameTimer,1200);
+      }
+      let countRockPaperScissors = 3;
+      function gameTimer(){
+        switch (countRockPaperScissors){
+
+          case 3:
+          document.querySelector("h3#miniRobotText").outerHTML =
+          '<h3 id="miniRobotText">Rock!!!</h3>';
+          document.querySelector("img#rock").outerHTML =
+          '<img id="rock" src="./img/rock.jpg"\
+           style="width: 50%;\
+           margin-left: auto;\
+           margin-right: auto;\
+           display: block;"></img>';
+          countRockPaperScissors--;
+          break;
+
+          case 2:
+          document.querySelector("h3#miniRobotText").outerHTML =
+          '<h3 id="miniRobotText">Paper!!!</h3>';
+          document.querySelector("img#rock").outerHTML =
+          '<img id="rock" src=""></img>';
+
+          document.querySelector("img#paper").outerHTML =
+          '<img id="paper" src="./img/paper.png"\
+           style="width: 50%;\
+           margin-left: auto;\
+           margin-right: auto;\
+           display: block;"></img>';
+          countRockPaperScissors--;
+          break;
+
+          case 1:
+          document.querySelector("h3#miniRobotText").outerHTML =
+          '<h3 id="miniRobotText">Scissors!!!</h3>';
+          document.querySelector("img#paper").outerHTML =
+          '<img id="paper"  src=""></img>';
+
+          document.querySelector("img#scissors").outerHTML =
+          '<img id="scissors" src="./img/scissors.png"\
+           style="width: 50%;\
+           margin-left: auto;\
+           margin-right: auto;\
+           display: block;"></img>';
+          countRockPaperScissors--;
+          break;
+
+          case 0:
+          clearInterval(timeKeeper);
+          document.querySelector("h3#miniRobotText").outerHTML =
+          '<h3 id="miniRobotText">Shoot!!!</h3>';
+          document.querySelector("img#rock").outerHTML =
+          '<img id="rock" src="./img/rock.jpg"\
+           style="width: 30%;\
+           margin-left: auto;\
+           margin-right: auto;\
+           display: block;"\
+           onclick="selectRock()"></img>';
+          document.querySelector("p#rock").outerHTML =
+          '<p id="rock" ></p>';
+          document.querySelector("p#rockComp").outerHTML =
+          '<p id="rockComp" ></p>';
+
+          document.querySelector("img#paper").outerHTML =
+          '<img id="paper" src="./img/paper.png"\
+           style="width: 30%;\
+           margin-left: auto;\
+           margin-right: auto;\
+           display: block;"\
+           onclick="selectPaper()"></img>';
+          document.querySelector("p#paper").outerHTML =
+          '<p id="paper" ></p>';
+          document.querySelector("p#paperComp").outerHTML =
+          '<p id="paperComp" ></p>';
+
+          document.querySelector("img#scissors").outerHTML =
+          '<img id="scissors" src="./img/scissors.png"\
+           style="width: 30%;\
+           margin-left: auto;\
+           margin-right: auto;\
+           display: block;"\
+           onclick="selectScissors()"></img>';
+          document.querySelector("p#scissors").outerHTML =
+          '<p id="scissors" ></p>';
+          document.querySelector("p#scissorsComp").outerHTML =
+          '<p id="scissorsComp" ></p>';
+
+          //reset count Rock Paper Scissors
+          countRockPaperScissors = 3;
+          break;
+          default:
+            let str = "no";
+        }
+      }
+
+      // player to choose 1 out 3: rock,paper or scissors
+      let playerSelection;
+      // player makes a selection
+      function selectRock(){
+        playerSelection = "rock";
+        document.querySelector("img#rock").outerHTML =
+        '<img id="rock" src="./img/rock.jpg"\
+           style="width: 30%;\
+           border: thick solid red;\
+           float: left;\
+           "></img>';
+        document.querySelector("p#rock").outerHTML=
+        '<p id="rock"\
+         style="margin: 50px;\
+         float: left;\
+         ">'+player +': <br>picked Rock</p>';
+
+        document.querySelector("img#paper").outerHTML=
+        '<img id="paper" src="" ></img>';
+        document.querySelector("p#paper").outerHTML=
+        '<p id="paper" ></p>';
+
+        document.querySelector("img#scissors").outerHTML=
+        '<img id="scissors" src="" ></img>';
+        document.querySelector("p#scissors").outerHTML=
+        '<p id="scissors" ></p>';
+
+        displayWinner();
+      }
+      function selectPaper(){
+        playerSelection = "paper";
+        document.querySelector("img#paper").outerHTML =
+        '<img id="paper" src="./img/paper.png"\
+           style="width: 30%;\
+           border: thick solid red;\
+           float: left;\
+           margin-right: 20px;\
+           "></img>';
+        document.querySelector("p#paper").outerHTML=
+        '<p id="paper"\
+         style="margin: 40px; margin-bottom: 80px;\
+         float: left;\
+         ">'+player +': <br>picked Paper</p>';
+
+        document.querySelector("img#rock").outerHTML=
+        '<img id="rock" src="" ></img>';
+        document.querySelector("p#rock").outerHTML=
+        '<p id="rock"></p>';
+
+        document.querySelector("img#scissors").outerHTML=
+        '<img id="scissors" src="" ></img>';
+        document.querySelector("p#scissors").outerHTML=
+        '<p id="scissors"></p>';
+
+        displayWinner();
+      }
+      function selectScissors(){
+        playerSelection = "scissors";
+        document.querySelector("img#scissors").outerHTML =
+        '<img id="scissors" src="./img/scissors.png"\
+           style="width: 30%;\
+           border: thick solid red;\
+           float: left;\
+           margin-right: 20px;\
+           "></img>';
+        document.querySelector("p#scissors").outerHTML=
+        '<p id="scissors"\
+         style="margin: 20px;\
+         margin-bottom: 80px;\
+         float: left;\
+         ">'+player +': <br>picked Scissors</p>'
+         ;
+
+        document.querySelector("img#paper").outerHTML=
+        '<img id="paper" src="" ></img>';
+        document.querySelector("p#paper").outerHTML=
+        '<p id="paper"></p>';
+
+        document.querySelector("img#rock").outerHTML=
+        '<img id="rock" src="" ></img>';
+        document.querySelector("p#rock").outerHTML=
+        '<p id="rock"></p>';
+
+        displayWinner();
+      }
+
+      // winner is displayed
+      let computerSelection;
+      let playerScoreTotal=0;
+      let miniRobotScoreTotal=0;
+      let tiesScoreTotal=0;
+      function displayWinner(){
+        computerSelection = computerPlay();
+        function computerPlay() {
+          const computerChoice = ["rock","paper","scissors"];
+          return computerChoice[Math.floor(Math.random()*computerChoice.length)];
+        }
+
+        switch (computerSelection) {
+          case "rock":
+          document.querySelector("img#rockComp").outerHTML=
+        '<img id="rockComp" src="./img/rock.jpg"\
+           style="width: 30%;\
+           border: thick solid blue;\
+           float: left;\
+           "></img>';
+          document.querySelector("p#rockComp").outerHTML=
+        '<p id="rockComp"\
+         style="margin: 20px;\
+         float: left;\
+         ">miniRobot: <br>picked Rock</p>';
+          break;
+
+          case "paper":
+          document.querySelector("img#paperComp").outerHTML=
+        '<img id="paperComp" src="./img/paper.png"\
+           style="width: 30%;\
+           border: thick solid blue;\
+           float: left;\
+           "></img>';
+          document.querySelector("p#paperComp").outerHTML=
+        '<p id="paperComp"\
+         style="margin: 50px;\
+         float: left;\
+         ">miniRobot: <br>picked Paper</p>';
+          break;
+
+          case "scissors":
+          document.querySelector("img#scissorsComp").outerHTML=
+        '<img id="scissorsComp" src="./img/scissors.png"\
+           style="width: 30%;\
+           border: thick solid blue;\
+           float: left;\
+           "></img>';
+          document.querySelector("p#scissorsComp").outerHTML=
+        '<p id="scissorsComp"\
+         style="margin: 20px;\
+         float: left;\
+         ">miniRobot: <br>picked Scissors</p>';
+          break;
+
+          default:
+          let nothing =0;
+        }
+
+
+        //    alert("computerSelection:\n\n"+computerSelection);
+
+        // Write a function that plays a single round of Rock Paper Scissors. The function should take two parameters - the playerSelection and computerSelection - and then return a string that declares the winner of the round like so: "You Lose! Paper beats Rock"
+        // make your function case insensitive (so users can input rock, ROCK, RocK or any other variation)
+        // Important note: you want to returnthe results of this function call, notconsole.log() them. To test this function console.log the results:
+        // function playRound(playerSelection, computerSelection) {
+        // your code here!
+        //}
+
+        const playOutcomes= [
+          // playerSelection,computerSelection,outcome,result
+          ["rock","rock","It\n's a Tie","tie"],
+          ["rock","paper","You lose:\<br\> Paper covers Rock","miniRobot"],
+          ["rock","scissors","You win:\<br\> Rock smashes Scissors","player"],
+          ["paper","rock","You win:\<br\> Paper covers Rock","player"],
+          ["paper","paper","It\n's a Tie","tie"],
+          ["paper","scissors","You lose:\<br\> Scissors cuts Paper","miniRobot"],
+          ["scissors","rock","You lose:\<br\> Rock smashes Scissors","miniRobot"],
+          ["scissors","paper","You win:\<br\> Scissors cuts Paper","player"],
+          ["scissors","scissors","It\n's a Tie","tie"],
+        ];
+        //    alert("playerOutcomes:\n\n"+playOutcomes);
+
+        playerRound(playerSelection,computerSelection);
+        function playerRound(playerSelection,computerSelection){
+          // find win,lose or tie result
+          let playOutcomeSelection = playOutcomes.filter(play => {
+            if (play[0] == playerSelection && play[1] == computerSelection)
+            return play;
+          })
+          //let str = "you picked:\n"+playOutcomeSelection[0][0]+
+          //"\n\n"+"computer picks:\n"+playOutcomeSelection[0][1]+
+          //"\n\n"+playOutcomeSelection[0][2];
+          document.querySelector("h1#outCome").outerHTML =
+           '<h1 id="outCome" \
+           style="float: left;\
+           margin-bottom: 0;\
+           ">'+player+": "+ playOutcomeSelection[0][2]+'</h1>';
+
+          if (playOutcomeSelection[0][3] == "player")
+           playerScoreTotal++ ;
+          if (playOutcomeSelection[0][3] == "miniRobot")
+            miniRobotScoreTotal++;
+          if (playOutcomeSelection[0][3] == "tie")
+            tiesScoreTotal++;
+
+
+          //return str;
+        }
+
+        //    alert(playerRound(playerSelection,computerSelection));
+
+        // anotherGame = prompt("Another game?(y/n)");
+        document.querySelector("p#anotherGame").outerHTML =
+           '<p id="anotherGame" \
+           style="float: left;\
+           ">Want another Game?</p>';
+
+        document.querySelector("p#yesAnotherGame").outerHTML =
+        '<button id="yesAnotherGame"\
+           style="float: left;\
+           margin-top: 15px;\
+           margin-left: 15px;"\
+         onclick="playNextGame()">Yes</button>';
+        document.querySelector("p#noStop").outerHTML =
+        '<button id="noStop"\
+           style="float: left;\
+           margin-top: 15px;\
+           margin-left: 15px;"\
+         onclick="stopGames()">No</button>';
+
+
+        //}
+        //while (continueYN == "yes" );
+      }
+
+      // play another game?
+      function playNextGame(){
+        //continueYN=true;
+        // remove anotherGame buttons
+        document.querySelector("button#yesAnotherGame").outerHTML =
+        '<p id="yesAnotherGame"></p>';
+        document.querySelector("button#noStop").outerHTML =
+        '<p id="noStop"></p>';
+        document.querySelector("p#anotherGame").outerHTML =
+        '<p id="anotherGame"></p>';
+        document.querySelector("h1#outCome").outerHTML =
+        '<h1 id="outCome"></h1>';
+
+        document.querySelector("img#rockComp").outerHTML=
+        '<img id="rockComp" src="" ></img>';
+        document.querySelector("p#rockComp").outerHTML=
+        '<p id="rockComp"></p>';
+        document.querySelector("img#paperComp").outerHTML=
+        '<img id="paperComp" src="" ></img>';
+        document.querySelector("p#paperComp").outerHTML=
+        '<p id="paperComp"></p>';
+        document.querySelector("img#scissorsComp").outerHTML=
+        '<img id="scissorsComp" src="" ></img>';
+        document.querySelector("p#scissorsComp").outerHTML=
+        '<p id="scissorsComp" ></p>';
+
+        document.querySelector("img#rock").outerHTML =
+        '<img id="rock" src="" ></img>';
+        document.querySelector("p#rock").outerHTML =
+        '<p id="rock"></p>';
+
+        document.querySelector("img#paper").outerHTML =
+        '<img id="paper" src="" ></img>';
+        document.querySelector("p#paper").outerHTML =
+        '<p id="paper"></p>';
+
+        document.querySelector("img#scissors").outerHTML =
+        '<img id="scissors" src="" ></img>';
+        document.querySelector("p#scissors").outerHTML =
+        '<p id="scissors"></p>';
+
+        document.querySelector("h3#miniRobotText").outerHTML =
+        '<h3 id="miniRobotText" style="border: 0 solid white;"></h3>';
+        document.querySelector("img#rock").outerHTML =
+        '<img id="rock" src=""\
+        "></img>';
+        document.querySelector("p#rock").outerHTML =
+        '<p id="rock" ></p>';
+
+        document.querySelector("img#paper").outerHTML =
+        '<img id="paper" src=""\
+        "></img>';
+        document.querySelector("p#paper").outerHTML =
+        '<p id="paper" ></p>';
+
+        document.querySelector("img#scissors").outerHTML =
+        '<img id="scissors" src=""\
+        "></img>';
+        document.querySelector("p#scissors").outerHTML =
+        '<p id="scissors" ></p>';
+
+        document.querySelector("p#playerScore").innerHTML =
+        'Score! *Leo:'+ playerScoreTotal+
+        ' *MiniRobot:'+ miniRobotScoreTotal+
+        ' *Ties:'+tiesScoreTotal;
+
+        // Restart another Game
+        countDownToPick();
+
+      }
+
+      function stopGames(){
+        continueYN=false;
+        // remove anotherGame buttons
+        document.querySelector("button#yesAnotherGame").outerHTML =
+        '<p id="yesAnotherGame"></p>';
+        document.querySelector("button#noStop").outerHTML =
+        '<p id="noStop"></p>';
+      }
+
+    </script>
+
+
+  </body>
+</html>
